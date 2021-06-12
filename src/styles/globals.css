@@ -14,3 +14,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.quill {
+  width: 100%;
+}

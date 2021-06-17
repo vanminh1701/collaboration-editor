@@ -1,0 +1,25 @@
+name: DEPLOY API STAGING
+on:
+  push:
+    branches: [staging]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+      - name: Install npm
+        run: npm install
+      - name: Run build task
+        run: npm run build
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY:  ${{ secrets.SSH_PRIVATE_KEY }} 
+          ARGS: "-rltgoDzvO --delete"
+          REMOTE_HOST: "103.92.28.40"
+          REMOTE_USER: "root"
+          TARGET: "WMTIME/api"
